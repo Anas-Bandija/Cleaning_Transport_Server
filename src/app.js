@@ -1,25 +1,30 @@
-import express from "express"
-import cors from "cors"
-import cookieParser from "cookie-parser"
-import adminRoutes from "./routes/admin.routes.js" // 👈 import admin routes
-import serviceRoutes from "./routes/services.routes.js";// 👈 import services routes
-import teamRoutes from "./routes/team.routes.js";// 👈 import services routes
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import adminRoutes from "./routes/admin.routes.js";
+import serviceRoutes from "./routes/services.routes.js";
+import teamRoutes from "./routes/team.routes.js";
 
-const app = express()
+const app = express();
 
 // Middlewares
-app.use(express.json({ limit: "16kb" }))
-app.use(express.urlencoded({ limit: "16kb", extended: true }))
+app.use(express.json({ limit: "16kb" }));
+app.use(express.urlencoded({ limit: "16kb", extended: true }));
 app.use(cors({
-    origin: process.env.CORS_ORIGIN || "http://localhost:3000", // allow frontend origin
-    credentials: true // allow cookies to be sent
+  origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+  credentials: true
 }));
-app.use(cookieParser())
-app.use(express.static("public"))
+app.use(cookieParser());
+app.use(express.static("public"));
 
-// Admin routes
-app.use("/api/v1/admin", adminRoutes) // 👈 mount admin routes
+// 🔥 Hello World on root
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
+
+// Routes
+app.use("/api/v1/admin", adminRoutes);
 app.use("/api/service", serviceRoutes);
 app.use("/api/team", teamRoutes);
 
-export { app }
+export { app };
